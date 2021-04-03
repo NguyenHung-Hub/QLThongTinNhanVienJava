@@ -146,6 +146,7 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 		txtTimKiem = new JTextField(15);
 		timKiemJPanel.add(txtTimKiem);
 		btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem.addActionListener(this);
 		timKiemJPanel.add(btnTimKiem);
 //		bottomJPanel.add(timKiemJPanel);
 
@@ -341,7 +342,9 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 					String maNVXoa = (String) table.getValueAt(table.getSelectedRow(), 0);
 					System.out.println(maNVXoa);
 //					dsNhanVien.xoaNhanVien(maNVXoa);
-					dsNhanVien.xoa(dsNhanVien.getElement(table.getSelectedRow()));
+					if (dsNhanVien.xoa(dsNhanVien.getElement(table.getSelectedRow()))) {
+						System.out.println("xoa thanh cong");
+					}
 					tableModel.removeRow(table.getSelectedRow());
 				}
 			}
@@ -358,6 +361,34 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(this, "Lưu không thành công.");
 				e1.printStackTrace();
+			}
+		}
+		
+		// nút tìm kiếm
+		if (object.equals(btnTimKiem)) {
+			String maTimKiem = txtTimKiem.getText().trim();
+			
+			NhanVien nhanVien = dsNhanVien.timKiemNhanVien(maTimKiem);
+			if (nhanVien == null) {
+				JOptionPane.showMessageDialog(this, "Không tìm thấy.");
+				txtTimKiem.selectAll();
+				txtTimKiem.requestFocus();
+				return;
+			}else {
+//				System.out.println(nhanVien.getMaNV());
+//				System.out.println(nhanVien.getHoNV());
+//				System.out.println(nhanVien.getTenNV());
+//				System.out.println(nhanVien.getTuoi());
+//				System.out.println(nhanVien.isGioiTinh());
+//				System.out.println(nhanVien.getTienLuong());
+				String gioiTinhString = "Nam";
+				if(!nhanVien.isGioiTinh())
+					gioiTinhString="Nữ";
+				
+				String ketQuaString = String.format(" Mã: %s\n Họ: %s\n Tên: %s\n Tuổi: %d\n Phái: %s\n Tiền lương: %.2f",
+						nhanVien.getMaNV(),nhanVien.getHoNV(),nhanVien.getTenNV(),nhanVien.getTuoi(),gioiTinhString,nhanVien.getTienLuong());
+				JOptionPane.showMessageDialog(this, ketQuaString, "Kết quả tìm kiếm",JOptionPane.CLOSED_OPTION);
+				
 			}
 		}
 

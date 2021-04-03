@@ -1,5 +1,6 @@
 package thongTinNhanVien;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,6 +14,10 @@ public class DanhSachNhanVien implements Serializable{
 	
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4597027648106969218L;
 	private List<NhanVien> dsNhanViens;
 	
 	public DanhSachNhanVien() {
@@ -54,8 +59,8 @@ public class DanhSachNhanVien implements Serializable{
 //	}
 	
 	public boolean xoa(Object object) {
-		dsNhanViens.remove(object);
-		return true;
+		return dsNhanViens.remove(object);
+//		return true;
 	}
 	
 	/**
@@ -73,6 +78,15 @@ public class DanhSachNhanVien implements Serializable{
 //		
 //		return list;
 //	}
+	
+	
+	public NhanVien timKiemNhanVien(String ma) {
+		for (NhanVien nhanVien : dsNhanViens) {
+			if(nhanVien.getMaNV().equals(ma))
+				return nhanVien;
+		}
+		return null;
+	}
 
 	public NhanVien getElement(int index) {
 		if(index <0 || index>dsNhanViens.size())
