@@ -44,7 +44,7 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 
 	private DanhSachNhanVien dsNhanVien;
 
-	private boolean trangThaiLuuTru = false; // Trạng thái lưu trữ: true là đã lưu, false là chưa lưu.
+	private boolean trangThaiLuuTru = true; // Trạng thái lưu trữ: true là đã lưu, false là chưa lưu.
 
 	public ThongTinNhanVien_UI() {
 		setTitle("^_^");
@@ -68,7 +68,6 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 		});
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
-		
 
 		/* BEGIN: Top */
 		JPanel topJPanel = new JPanel(new BorderLayout());
@@ -166,6 +165,7 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 		btnXoaRong = new JButton("Xóa rỗng");
 		btnXoa = new JButton("Xóa");
 		btnLuu = new JButton("Lưu");
+		btnLuu.setBackground(Color.green);
 
 		btnJPanel.add(btnThem);
 		btnJPanel.add(btnXoaRong);
@@ -209,10 +209,6 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 
 	public static void main(String[] args) {
 		new ThongTinNhanVien_UI().setVisible(true);
-	}
-
-	public void tat() {
-		System.exit(0);
 	}
 
 	public boolean checkEmtyText() {
@@ -291,6 +287,15 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 		}
 	}
 
+	/* Trạng thái màu của nút Lưu */
+	public void trangThaiNutLuu(boolean trangThai) {
+		trangThaiLuuTru = trangThai;
+		if (trangThaiLuuTru == false)
+			btnLuu.setBackground(Color.red);
+		else
+			btnLuu.setBackground(Color.green);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object object = e.getSource();
@@ -338,7 +343,8 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 			txtLuongNV.selectAll();
 			txtMaNV.requestFocus();
 
-			trangThaiLuuTru = false;
+//			trangThaiLuuTru = false;
+			trangThaiNutLuu(false);
 		}
 
 		// Nút xóa rỗng
@@ -363,7 +369,8 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 
 					if (dsNhanVien.xoa(dsNhanVien.getElement(table.getSelectedRow()))) {
 						tableModel.removeRow(table.getSelectedRow());
-						trangThaiLuuTru = false;
+//						trangThaiNutLuu(false);
+						trangThaiNutLuu(false);
 					} else
 						JOptionPane.showMessageDialog(this, "Xóa lỗi.");
 
@@ -374,7 +381,8 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 		// Nút lưu
 		if (object.equals(btnLuu)) {
 			luuVaoFile();
-			trangThaiLuuTru = true;
+//			trangThaiLuuTru = true;
+			trangThaiNutLuu(true);
 		}
 
 		// nút tìm kiếm
