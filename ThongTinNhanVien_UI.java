@@ -10,6 +10,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -197,9 +200,11 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 				String gioiTinh = "Nam"; // true
 				if (nv.isGioiTinh() == false)
 					gioiTinh = "Nữ";
-
+				
+				DecimalFormat df=new DecimalFormat("#,##0");
+				double luong = nv.getTienLuong();
 				tableModel.addRow(new Object[] { nv.getMaNV(), nv.getHoNV(), nv.getTenNV(), nv.getTuoi(), gioiTinh,
-						nv.getTienLuong() });
+						 df.format(luong)});
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -246,7 +251,7 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 		try {
 			int tuoi = Integer.parseInt(txtTuoiNV.getText());
 			if (tuoi < 1 || tuoi > 100) {
-				JOptionPane.showMessageDialog(this, "Nhập tuổi không đúng.");
+				JOptionPane.showMessageDialog(this, "Nhập tuổi không đúng.\nTuổi quá lớn.");
 				txtTuoiNV.selectAll();
 				txtTuoiNV.requestFocus();
 				return false;
@@ -260,7 +265,7 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 		try {
 			double luong = Double.parseDouble(txtLuongNV.getText());
 			if (luong < 1) {
-				JOptionPane.showMessageDialog(this, "Nhập tiền lương không đúng.");
+				JOptionPane.showMessageDialog(this, "Nhập tiền lương không đúng.\nTiền lương quá nhỏ.");
 				txtLuongNV.selectAll();
 				txtLuongNV.requestFocus();
 				return false;
@@ -407,11 +412,13 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 				String gioiTinhString = "Nam";
 				if (!nhanVien.isGioiTinh())
 					gioiTinhString = "Nữ";
-
+				
+				DecimalFormat df=new DecimalFormat("#,##0");
+				
 				String ketQuaString = String.format(
-						" Mã: %s\n Họ: %s\n Tên: %s\n Tuổi: %d\n Phái: %s\n Tiền lương: %.2f", nhanVien.getMaNV(),
+						" Mã: %s\n Họ: %s\n Tên: %s\n Tuổi: %d\n Phái: %s\n Tiền lương: %s", nhanVien.getMaNV(),
 						nhanVien.getHoNV(), nhanVien.getTenNV(), nhanVien.getTuoi(), gioiTinhString,
-						nhanVien.getTienLuong());
+						df.format(nhanVien.getTienLuong()));
 				JOptionPane.showMessageDialog(this, ketQuaString, "Kết quả tìm kiếm", JOptionPane.CLOSED_OPTION);
 
 			}
