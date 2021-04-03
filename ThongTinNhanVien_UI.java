@@ -388,6 +388,13 @@ public class ThongTinNhanVien_UI extends JFrame implements ActionListener, Mouse
 		// nút tìm kiếm
 		if (object.equals(btnTimKiem)) {
 			String maTimKiem = txtTimKiem.getText().trim();
+			
+			if(maTimKiem.isEmpty())
+			{
+				JOptionPane.showMessageDialog(this, "Chưa nhập mã cần tìm.");
+				txtTimKiem.requestFocus();
+				return;
+			}
 
 			NhanVien nhanVien = dsNhanVien.timKiemNhanVien(maTimKiem);
 			if (nhanVien == null) {
